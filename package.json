@@ -1,0 +1,27 @@
+{
+  "name": "format_subtitle_10",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rslib build",
+    "dev": "rslib build --watch",
+    "test": "rstest"
+  },
+  "devDependencies": {
+    "@rslib/core": "^0.17.1",
+    "@rstest/core": "^0.6.4",
+    "@types/node": "^24.10.0",
+    "jest-extended": "^7.0.0",
+    "typescript": "^5.9.3"
+  }
+}
