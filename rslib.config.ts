@@ -8,4 +8,10 @@ export default defineConfig({
       dts: true,
     },
   ],
+  source: {
+    entry: {
+      index: 'src/index.ts',
+      genTestData: 'test/genTestData.ts'
+    }
+  }
 });

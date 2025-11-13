@@ -1,0 +1,7 @@
+// Rstest Snapshot v1
+
+exports[`squared 1`] = `
+{
+  "a": toBeWithin<2000, 3000>,
+}
+`;

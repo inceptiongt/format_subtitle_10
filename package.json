@@ -15,7 +15,8 @@
   "scripts": {
     "build": "rslib build",
     "dev": "rslib build --watch",
-    "test": "rstest"
+    "test": "rstest",
+    "genTData": "rslib build && node ./dist/genTestData.js"
   },
   "devDependencies": {
     "@rslib/core": "^0.17.1",

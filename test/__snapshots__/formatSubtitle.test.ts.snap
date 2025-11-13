@@ -1,0 +1,51 @@
+// Rstest Snapshot v1
+
+exports[`1-2-3-4 1`] = `
+[
+  {
+    "dDurationMs": 4000,
+    "segs": [
+      {
+        "utf8": "若干一若干一若干一若干一若干一若干一若干一若干一若干一若干一。",
+      },
+    ],
+    "tStartMs": 0,
+  },
+  {
+    "dDurationMs": 4000,
+    "segs": [
+      {
+        "utf8": "若干二若干二若干二若干二若干二若干二若干二若干二若干二若干二，",
+      },
+    ],
+    "tStartMs": 5000,
+  },
+  {
+    "dDurationMs": toBeWithin<2000, 2500>,
+    "segs": [
+      {
+        "utf8": "若干三若干三若干三若干三若干三。",
+      },
+    ],
+    "tStartMs": 10000,
+  },
+  {
+    "dDurationMs": toBeWithin<4500, 5500>,
+    "segs": [
+      {
+        "utf8": "若干三若干三若干三若干三若干三若干四若干四若干四若干四若干四，",
+      },
+    ],
+    "tStartMs": toBeWithin<12000, 12500>,
+  },
+  {
+    "dDurationMs": toBeWithin<1500, 2500>,
+    "segs": [
+      {
+        "utf8": "若干四若干四若干四若干四若干四",
+      },
+    ],
+    "tStartMs": toBeWithin<17000, 17500>,
+  },
+]
+`;
