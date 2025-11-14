@@ -49,3 +49,80 @@ exports[`1-2-3-4 1`] = `
   },
 ]
 `;
+
+exports[`10-11-12-13 1`] = `
+[
+  {
+    "dDurationMs": toBeWithin<2500, 3500>,
+    "segs": [
+      {
+        "utf8": "若干十若干十若干十若干若干十若干十若干十若干，",
+      },
+    ],
+    "tStartMs": 0,
+  },
+  {
+    "dDurationMs": toBeWithin<500, 1500>,
+    "segs": [
+      {
+        "utf8": "十若干十若干十。",
+      },
+    ],
+    "tStartMs": toBeWithin<2500, 3500>,
+  },
+  {
+    "dDurationMs": toBeWithin<500, 1500>,
+    "segs": [
+      {
+        "utf8": "若干壹若干壹若干。",
+      },
+    ],
+    "tStartMs": 5000,
+  },
+  {
+    "dDurationMs": toBeWithin<2500, 3500>,
+    "segs": [
+      {
+        "utf8": "壹若干壹若干壹，若干壹若干壹若干壹若干壹若干壹。",
+      },
+    ],
+    "tStartMs": toBeWithin<5500, 6500>,
+  },
+  {
+    "dDurationMs": toBeWithin<2500, 3500>,
+    "segs": [
+      {
+        "utf8": "若干贰若干贰若干，贰若干贰若干贰若干贰若干贰若干。",
+      },
+    ],
+    "tStartMs": 10000,
+  },
+  {
+    "dDurationMs": toBeWithin<2500, 3500>,
+    "segs": [
+      {
+        "utf8": "贰若干贰若干贰，若干叁若干叁若干。",
+      },
+    ],
+    "tStartMs": toBeWithin<12500, 13500>,
+  },
+  {
+    "dDurationMs": toBeWithin<500, 1500>,
+    "segs": [
+      {
+        "utf8": "叁若干叁若干叁。",
+      },
+    ],
+    "tStartMs": toBeWithin<15500, 16500>,
+  },
+  {
+    "dDurationMs": toBeWithin<1500, 2500>,
+    "segs": [
+      {
+        "utf8": "若干叁若干若干，叁若干叁若干叁",
+      },
+    ],
+    "tStartMs": toBeWithin<16500, 17500>,
+  },
+]
+`;

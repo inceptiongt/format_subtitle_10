@@ -97,7 +97,7 @@ test(subtitleNames[3], () => {
         "dDurationMs": expect.toBeWithin(2500, 3500),
         "segs": [
           {
-            "utf8": "壹若干壹若干壹若干，壹若干壹若干壹若干壹若干壹。"
+            "utf8": "壹若干壹若干壹，若干壹若干壹若干壹若干壹若干壹。"
           }
         ]
       },
@@ -106,7 +106,7 @@ test(subtitleNames[3], () => {
         "dDurationMs": expect.toBeWithin(2500, 3500),
         "segs": [
           {
-            "utf8": "若干贰若干贰若干，贰若干贰若干贰若干贰若干贰若。"
+            "utf8": "若干贰若干贰若干，贰若干贰若干贰若干贰若干贰若干。"
           }
         ]
       },
@@ -115,7 +115,7 @@ test(subtitleNames[3], () => {
         "dDurationMs": expect.toBeWithin(2500, 3500),
         "segs": [
           {
-            "utf8": "干贰若干贰若干贰，若干叁若干叁若。"
+            "utf8": "贰若干贰若干贰，若干叁若干叁若干。"
           }
         ]
       },
@@ -124,7 +124,7 @@ test(subtitleNames[3], () => {
         "dDurationMs": expect.toBeWithin(500, 1500),
         "segs": [
           {
-            "utf8": "干叁若干叁若干叁。"
+            "utf8": "叁若干叁若干叁。"
           }
         ]
       },
@@ -133,7 +133,7 @@ test(subtitleNames[3], () => {
         "dDurationMs": expect.toBeWithin(1500, 2500),
         "segs": [
           {
-            "utf8": "若干叁若干若，干叁若干叁若干叁"
+            "utf8": "若干叁若干若干，叁若干叁若干叁"
           }
         ]
       }

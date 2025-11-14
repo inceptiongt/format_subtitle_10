@@ -126,6 +126,10 @@ const buildCharTimings = (item: subtitle_item): CharTiming[] => {
   return timings;
 }
 
+const MIN_COMMA_SEGMENT_LENGTH = 10;
+
+const getTextLength = (text: string) => text.replace(/\s+/g, '').length;
+
 const shouldFlushAtChar = (
   char: string,
   currentText: string,
@@ -135,7 +139,15 @@ const shouldFlushAtChar = (
   }
 
   const textWithoutCurrentChar = currentText.slice(0, -1);
-  return textWithoutCurrentChar.trim().length > 0;
+  if (getTextLength(textWithoutCurrentChar) === 0) {
+    return false;
+  }
+
+  if (char === '，') {
+    return getTextLength(currentText) >= MIN_COMMA_SEGMENT_LENGTH;
+  }
+
+  return true;
 }
 
 const normalizeTimestamp = (value: number): number => Math.round(value);

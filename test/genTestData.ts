@@ -97,7 +97,7 @@ const subtitleItems: Record<string, subtitle_item> = {
         "tStartMs": 11000,
         "dDurationMs": 4000,
         "segs": [ {
-            "utf8": "若干叁若干叁若干。叁若干叁若干叁。若干叁若干若干。叁若干叁若干叁"
+            "utf8": "若干叁若干叁若干。叁若干叁若干叁。若干叁若干若干，叁若干叁若干叁"
         } ]
     }
 }
