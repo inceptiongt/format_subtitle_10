@@ -1,0 +1,154 @@
+{
+  "1-2-3-4": [
+    {
+      "tStartMs": 0,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa aaa."
+        }
+      ]
+    },
+    {
+      "tStartMs": 5000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb, "
+        }
+      ]
+    },
+    {
+      "tStartMs": 10000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "ccc ccc ccc ccc ccc ccc. ccc ccc ccc ccc ccc ccc"
+        }
+      ]
+    },
+    {
+      "tStartMs": 15000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "ddd ddd ddd ddd ddd ddd, ddd ddd ddd ddd ddd ddd"
+        }
+      ]
+    }
+  ],
+  "2-3-4-5": [
+    {
+      "tStartMs": 0,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb bbb, "
+        }
+      ]
+    },
+    {
+      "tStartMs": 5000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "ccc ccc ccc ccc ccc ccc. ccc ccc ccc ccc ccc ccc"
+        }
+      ]
+    },
+    {
+      "tStartMs": 10000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "ddd ddd ddd ddd ddd ddd, ddd ddd ddd ddd ddd ddd"
+        }
+      ]
+    },
+    {
+      "tStartMs": 15000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": ". eee eee eee eee eee eee eee eee eee eee eee eee"
+        }
+      ]
+    }
+  ],
+  "6-7-8-9": [
+    {
+      "tStartMs": 0,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": ", fff fff fff fff fff fff fff fff fff fff fff fff"
+        }
+      ]
+    },
+    {
+      "tStartMs": 5000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "ggg ggg ggg, ggg ggg ggg, ggg ggg ggg ggg ggg ggg"
+        }
+      ]
+    },
+    {
+      "tStartMs": 10000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "hhh hhh hhh hhh hhh hhh hhh hhh hhh, hhh hhh hhh, "
+        }
+      ]
+    },
+    {
+      "tStartMs": 15000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "iii iii iii.iii iii iii, iii iii iii iii iii iii"
+        }
+      ]
+    }
+  ],
+  "10-11-12-13": [
+    {
+      "tStartMs": 0,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "jjj jjj jjj jjj jjj jjj jjj jjj jjj. jjj jjj jjj,"
+        }
+      ]
+    },
+    {
+      "tStartMs": 5000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": ", kkk kkk kkk, kkk kkk kkk kkk kkk kkk, kkk kkk kkk"
+        }
+      ]
+    },
+    {
+      "tStartMs": 10000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": "lll lll lll lll lll lll. lll lll lll, lll lll lll,"
+        }
+      ]
+    },
+    {
+      "tStartMs": 15000,
+      "dDurationMs": 4000,
+      "segs": [
+        {
+          "utf8": ". mmm mmm mmm. mmm mmm mmm mmm mmm mmm mmm mmm mmm"
+        }
+      ]
+    }
+  ]
+}
