@@ -129,8 +129,8 @@ export interface result_item {
     }]
   *
   *需要特殊处理：
-  1. 有些 item 没有 segs 字段，跳过
-  2. 如果有tOffsetMs 字段，则需要根据 tOffsetMs 修正 dDurationMs的值，修正逻辑为：最后一个 tOffsetMs 的值为 dDurationMs 的值。
+  1. 第一个 item 没有 segs 字段，不处理直接跳过。
+  2. dDurationMs 数据不可信。如果有tOffsetMs 字段，则需要根据 tOffsetMs 修正 dDurationMs 的值，修正逻辑为：最后一个 tOffsetMs 的值为 dDurationMs 的值。
   */
   
 export const SenEnd = ['，', '；','。','？','！']
@@ -156,15 +156,12 @@ const buildCharTimings = (item: subtitle_item): CharTiming[] => {
     return [];
   }
 
-  // If any segs include tOffsetMs, use the last (max) tOffsetMs as the
+  // If any segs include tOffsetMs, use the last tOffsetMs as the
   // corrected dDurationMs per the comment: "最后一个 tOffsetMs 的值为 dDurationMs 的值"
-  const offsets = item.segs
-    .map((s) => (typeof s.tOffsetMs === 'number' ? s.tOffsetMs : undefined))
-    .filter((v) => typeof v === 'number') as number[];
+  const lastOffset = item.segs[item.segs.length - 1].tOffsetMs;
 
   let effectiveDuration = item.dDurationMs;
-  if (offsets.length > 0) {
-    const lastOffset = Math.max(...offsets);
+  if (lastOffset) {
     effectiveDuration = lastOffset;
   }
 
