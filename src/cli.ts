@@ -5,7 +5,7 @@ import { formatSubtitle } from './formatSubtitle';
 import { subArr2Srt } from './subArr2Srt';
 
 const usage = () => {
-  console.error('Usage: formatSubtitle <input.json>');
+  console.error('Usage: formatSubtitle <input.json> [--debug|-d]');
   process.exit(2);
 };
 
@@ -14,6 +14,11 @@ const main = async () => {
   if (args.length < 1) {
     usage();
   }
+
+  // Support a debug flag anywhere in the args: --debug or -d
+  const debugIndex = args.findIndex((a) => a === '--debug' || a === '-d');
+  const debug = debugIndex !== -1;
+  if (debug) args.splice(debugIndex, 1);
 
   const inputPath = path.resolve(process.cwd(), args[0]);
 
@@ -27,6 +32,18 @@ const main = async () => {
 
     // Call the library formatter (returns subtitle_item[])
     const formatted = formatSubtitle(items as any);
+
+    // If debug mode is enabled, write the formatted object to a JSON file
+    if (debug) {
+      try {
+        const jsonOutName = `${path.basename(inputPath, path.extname(inputPath))}.formatted.json`;
+        const jsonOutPath = path.join(path.dirname(inputPath), jsonOutName);
+        await fs.writeFile(jsonOutPath, JSON.stringify(formatted, null, 2), 'utf-8');
+        console.log(`Wrote formatted JSON to ${jsonOutPath}`);
+      } catch (writeErr: any) {
+        console.error('Error writing formatted JSON:', writeErr && writeErr.message ? writeErr.message : String(writeErr));
+      }
+    }
 
     // Pass subtitle_item[] directly to subArr2Srt (now accepts subtitle_item[])
     const srt = subArr2Srt(formatted as any);
