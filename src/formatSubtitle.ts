@@ -1,13 +1,22 @@
 export interface subtitle_item {
   tStartMs: number;
   dDurationMs: number;
-  segs: {
-    utf8: string;
+  // segs can be missing for some auto-generated files — mark optional
+  segs?: {
+    utf8?: string;
     tOffsetMs?: number;
+    // allow other fields (acAsrConf, etc.)
+    [key: string]: any;
   }[];
 }
 
-
+export interface result_item {
+  tStartMs: number;
+  dDurationMs: number;
+  segs: {
+    utf8: string;
+  }[];
+}
 /**
  * 根据字幕的文字内容，按照"完整句子"，重新整理字幕内容
  * @example
@@ -82,6 +91,46 @@ export interface subtitle_item {
   * 拆分“字幕 item”后，得到新的“字幕 item”。其中的文字的首字符的时间戳为新的tStartMs，dDurationMs=尾字符时间戳-首字符时间戳
   * 
   * 项目包含测试数据，测试用例用于参考
+  * 
+  * 
+  * 第二种类型的 input（从自动生成的英语翻译成中文）
+  * [{
+      "tStartMs": 0,
+      "dDurationMs": 3254040,
+      "id": 1,
+      "wpWinPosId": 1,
+      "wsWinStyleId": 1
+    },
+    {
+      "tStartMs": 40,
+      "dDurationMs": 3760,
+      "wWinId": 1,
+      "segs": [
+        {
+          "utf8": "众所周知",
+          "acAsrConf": 0
+        },
+        {
+          "utf8": "，",
+          "tOffsetMs": 413,
+          "acAsrConf": 0
+        },
+        {
+          "utf8": "无论",
+          "tOffsetMs": 826,
+          "acAsrConf": 0
+        },
+        {
+          "utf8": "从",
+          "tOffsetMs": 1239,
+          "acAsrConf": 0
+        }
+      ]
+    }]
+  *
+  *需要特殊处理：
+  1. 有些 item 没有 segs 字段，跳过
+  2. 如果有tOffsetMs 字段，则需要根据 tOffsetMs 修正 dDurationMs的值，修正逻辑为：最后一个 tOffsetMs 的值为 dDurationMs 的值。
   */
   
 export const SenEnd = ['，', '；','。','？','！']
@@ -95,6 +144,11 @@ type CharTiming = {
 const isSentenceTerminator = (char: string) => SenEnd.includes(char);
 
 const buildCharTimings = (item: subtitle_item): CharTiming[] => {
+  // If there are no segs, skip this item
+  if (!item.segs || item.segs.length === 0) {
+    return [];
+  }
+
   const text = item.segs.map((seg) => seg.utf8 ?? '').join('');
   const length = text.length;
 
@@ -102,13 +156,25 @@ const buildCharTimings = (item: subtitle_item): CharTiming[] => {
     return [];
   }
 
-  const charDuration = length === 0 ? 0 : item.dDurationMs / length;
+  // If any segs include tOffsetMs, use the last (max) tOffsetMs as the
+  // corrected dDurationMs per the comment: "最后一个 tOffsetMs 的值为 dDurationMs 的值"
+  const offsets = item.segs
+    .map((s) => (typeof s.tOffsetMs === 'number' ? s.tOffsetMs : undefined))
+    .filter((v) => typeof v === 'number') as number[];
+
+  let effectiveDuration = item.dDurationMs;
+  if (offsets.length > 0) {
+    const lastOffset = Math.max(...offsets);
+    effectiveDuration = lastOffset;
+  }
+
+  const charDuration = effectiveDuration > 0 ? effectiveDuration / length : 0;
   const timings: CharTiming[] = [];
 
   for (let i = 0; i < length; i += 1) {
     const startMs = item.tStartMs + charDuration * i;
     const endMs = i === length - 1
-      ? item.tStartMs + item.dDurationMs
+      ? item.tStartMs + effectiveDuration
       : item.tStartMs + charDuration * (i + 1);
 
     timings.push({
@@ -147,14 +213,14 @@ const shouldFlushAtChar = (
 
 const normalizeTimestamp = (value: number): number => Math.round(value);
 
-export const formatSubtitle = (subtitle: subtitle_item[]): subtitle_item[] => {
+export const formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
   const flattenedChars: CharTiming[] = subtitle.flatMap(buildCharTimings);
 
   if (flattenedChars.length === 0) {
     return [];
   }
 
-  const results: subtitle_item[] = [];
+  const results: result_item[] = [];
   let segmentStartIndex = 0;
   let currentText = '';
 

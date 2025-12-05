@@ -1,4 +1,4 @@
-import type { subtitle_item } from "./formatSubtitle";
+import type { result_item } from "./formatSubtitle";
 
 /**
  * 把 subtitle_item[] 类型的数据转换成 srt 格式的字幕内容
@@ -14,7 +14,7 @@ import type { subtitle_item } from "./formatSubtitle";
  * 
 */
 
-export const subArr2Srt = (subArr: subtitle_item[]): string => {
+export const subArr2Srt = (subArr: result_item[]): string => {
     // 如果数组为空，返回空字符串
     if (subArr.length === 0) {
         return '';
