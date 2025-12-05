@@ -11,7 +11,8 @@ export default defineConfig({
   source: {
     entry: {
       index: 'src/index.ts',
-      genTestData: 'test/genTestData.ts'
+      genTestData: 'test/genTestData.ts',
+      cli: 'src/cli.ts'
     }
   }
 });

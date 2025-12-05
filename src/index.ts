@@ -1,1 +1,2 @@
-export const squared = (n: number): number => n * n;
+export *  from './formatSubtitle'
+export *  from './subArr2Srt'
