@@ -112,6 +112,50 @@ export const toMd = (data: {chapters?: Chapter[], zh_subtitle: subtitle_item[], 
         return chs;
     })();
 
+    // 合并逗号结尾的 SubtitleItem（中文用全角逗号 '，'，英文用半角逗号 ','）
+    const mergeCommaEnding = (items: result_item[], commaChar: string): result_item[] => {
+        const out: result_item[] = [];
+        let i = 0;
+        while (i < items.length) {
+            const cur = items[i];
+            const curText = cur.segs?.[0]?.utf8 ?? '';
+
+            if (!curText.endsWith(commaChar)) {
+                out.push(cur);
+                i += 1;
+                continue;
+            }
+
+            // merge chain starting at i
+            let mergedText = curText;
+            const startMs = cur.tStartMs;
+            let endMs = cur.tStartMs + (cur.dDurationMs ?? 0);
+
+            let j = i + 1;
+            while (j < items.length) {
+                const next = items[j];
+                const nextText = next.segs?.[0]?.utf8 ?? '';
+                mergedText += nextText;
+                endMs = Math.max(endMs, next.tStartMs + (next.dDurationMs ?? 0));
+                j += 1;
+                // stop merging if this nextText does not end with commaChar
+                if (!nextText.endsWith(commaChar)) break;
+            }
+
+            out.push({ tStartMs: startMs, dDurationMs: Math.max(0, Math.round(endMs - startMs)), segs: [{ utf8: mergedText }] });
+            i = j;
+        }
+
+        return out;
+    }
+
+    const zh_merged = mergeCommaEnding(zh_formatted as any, '，');
+    const en_merged = mergeCommaEnding(en_formatted as any, ',');
+
+    // use merged arrays for subsequent processing
+    const zh_used = zh_merged;
+    const en_used = en_merged;
+
     for (const ch of chaptersLocal) {
         const title = ch.title || '';
         const start = secondsToHMS(ch.start_time ?? 0);
@@ -122,47 +166,23 @@ export const toMd = (data: {chapters?: Chapter[], zh_subtitle: subtitle_item[], 
         sectionParts.push('');
 
         // collect zh subtitle texts inside chapter time range
-        // const zhItems = zh_formatted.filter(item => {
-        //         const tMs = item.tStartMs;
-        //         const t = (typeof tMs === 'number') ? tMs / 1000 : NaN;
-        //         return !Number.isNaN(t) && t >= (ch.start_time ?? 0) && t < (ch.end_time ?? Infinity);
-        // }).map(i => formatZh(i.segs?.[0]?.utf8 ?? ''))
-        //     .filter(Boolean);
-        let zhItems: string[] = [];
-        let zhItem = '';
-        zh_formatted.forEach(item => {
-            const tMs = item.tStartMs;
-            const t = (typeof tMs === 'number') ? tMs / 1000 : NaN;
-            if (!Number.isNaN(t) && t >= (ch.start_time ?? 0) && t < (ch.end_time ?? Infinity)) {
-                const formattedText = item.segs[0]?.utf8;
-                zhItem += formattedText
-                if (!formattedText.endsWith("，")) {
-                    zhItems.push(zhItem.replace(/\n/g, '').trim());
-                    zhItem = '';
-                }
-            }
-        });
+        const zhItems = zh_used.filter(item => {
+                const tMs = item.tStartMs;
+                const t = (typeof tMs === 'number') ? tMs / 1000 : NaN;
+                return !Number.isNaN(t) && t >= (ch.start_time ?? 0) && t < (ch.end_time ?? Infinity);
+        }).map(i => i.segs?.[0]?.utf8.replace(/\n/g, '').trim())
+
 
         if (zhItems.length) {
             sectionParts.push(zhItems.join('\n'));
             sectionParts.push('');
         }
 
-        let enItems: string[] = [];
-        let enItem = '';
-
-        en_formatted.forEach(item => {
-            const tMs = item.tStartMs;
-            const t = (typeof tMs === 'number') ? tMs / 1000 : NaN;
-            if (!Number.isNaN(t) && t >= (ch.start_time ?? 0) && t < (ch.end_time ?? Infinity)) {
-                const formattedText = item.segs[0]?.utf8;
-                enItem += formattedText
-                if (!formattedText.endsWith(",")) {
-                    enItems.push(enItem.replace(/\n/g, '').replace(/\s\s/g, ' ').trim());
-                    enItem = '';
-                }
-            }
-        });
+        const enItems = en_used.filter(item => {
+                const tMs = item.tStartMs;
+                const t = (typeof tMs === 'number') ? tMs / 1000 : NaN;
+                return !Number.isNaN(t) && t >= (ch.start_time ?? 0) && t < (ch.end_time ?? Infinity);
+        }).map(i => i.segs?.[0]?.utf8.replace(/\n/g, '').trim())
 
         if (enItems.length) {
             sectionParts.push(enItems.join('\n'));
