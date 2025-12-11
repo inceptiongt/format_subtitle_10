@@ -135,7 +135,7 @@ export interface result_item {
   
 export const SenEnd = ['，', '；','。','？','！']
 
-type CharTiming = {
+export type CharTiming = {
   char: string;
   startMs: number;
   endMs: number;

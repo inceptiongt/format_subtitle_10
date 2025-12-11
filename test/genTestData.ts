@@ -334,7 +334,12 @@ export const subtitles = [
     [10,11,12,13],
 ]
 
+export const subtitlesForEnglish = [
+    [1,4,7,10],
+    [2,5,8,11],
+]
+
 
 // genTestDataFile(subtitles)
 
-genTestDataFileForEnglish(metaItems, subtitles)
+genTestDataFileForEnglish(metaItems, subtitlesForEnglish)
