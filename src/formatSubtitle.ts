@@ -210,7 +210,7 @@ const shouldFlushAtChar = (
 
 const normalizeTimestamp = (value: number): number => Math.round(value);
 
-export const formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
+export const _formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
   const flattenedChars: CharTiming[] = subtitle.flatMap(buildCharTimings);
 
   if (flattenedChars.length === 0) {
@@ -235,21 +235,12 @@ export const formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
     const endMs = normalizeTimestamp(charTiming.endMs);
     const dDurationMs = Math.max(0, endMs - startMs);
 
-    
-
-    // normalize currentText: remove newlines, leading spaces, trailing whitespace,
-    // and remove a trailing comma (Chinese or ASCII) if present
-    let normalizedText = currentText.replace(/\n+/g, '');
-    normalizedText = normalizedText.replace(/^\s+/, '');
-    normalizedText = normalizedText.replace(/\s+$/g, '');
-    normalizedText = normalizedText.replace(/[，,]$/g, '');
-
     results.push({
       tStartMs: startMs,
       dDurationMs,
       segs: [
         {
-          utf8: normalizedText,
+          utf8: currentText,
         },
       ],
     });
@@ -259,4 +250,30 @@ export const formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
   });
 
   return results;
+}
+
+export const formatSubtitle = (subtitle: subtitle_item[]): result_item[] => {
+
+  const rawResults = _formatSubtitle(subtitle);
+
+  return rawResults.map(({ tStartMs, dDurationMs, segs }) => {
+    let currentText = segs[0].utf8;
+
+    // normalize currentText: remove newlines, leading spaces, trailing whitespace,
+    // and remove a trailing comma (Chinese or ASCII) if present
+    let normalizedText = currentText.replace(/\n+/g, '');
+    normalizedText = normalizedText.replace(/^\s+/, '');
+    normalizedText = normalizedText.replace(/\s+$/g, '');
+    normalizedText = normalizedText.replace(/[，,]$/g, '');
+
+    return {
+      tStartMs,
+      dDurationMs,
+      segs: [
+        {
+          utf8: normalizedText,
+        },
+      ],
+    };
+  });
 }
